@@ -7,7 +7,7 @@ type User = {
     gender: 'male' | 'female',
     contact: number
 } 
-const user1 = {
+const user1: User = {
     id: 12,
     name:{
         frstname: "T",
