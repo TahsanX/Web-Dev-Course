@@ -24,13 +24,13 @@ interface Iuserwithrole extends Iuser{
 }
 //function
 type Add = (num1: number, num2: number) => number
-const add: Add = (num1,num2)=>{
+const add1: Add = (num1,num2)=>{
     return num1+num2;
 }
 interface Iadd {
     (num1: number, num2: number): number
 }
-const add: Iadd = (num1,num2)=> num1+num2
+const add2: Iadd = (num1,num2)=> num1+num2
 //interface 
 interface IFriends {
     [index: number] : string
