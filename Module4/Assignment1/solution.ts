@@ -1,12 +1,4 @@
 // Problem 1:
-// const input: Number[] = [1,2,3,4,5,6];
-// const output: Number[] = [];
-// const filterEvenNumbers = input.filter((val:Number)=>{
-//     if (val%2==0) {
-//         return val
-//     }
-// })
-// console.log(...filterEvenNumbers)
 const input: number[] = [1, 2, 3, 4, 5, 6];
 function filterEvenNumbers(arr: number[]) {
   return arr.filter((val: number) => {
@@ -16,7 +8,6 @@ function filterEvenNumbers(arr: number[]) {
   });
 }
 const output = filterEvenNumbers(input);
-console.log(output);
 // Problem 2:
 function reverseString(str: string):string {
   let str1: string = "";
@@ -25,7 +16,7 @@ function reverseString(str: string):string {
   }
   return str1
 }
-console.log(reverseString("typescript"));
+const output2 = reverseString("typescript");
 //Problem 3:
 type v = number | string;
 function checkType(val:v): string {
@@ -36,8 +27,8 @@ function checkType(val:v): string {
         return "Number"
     }
 }
-console.log(checkType("Hello"))
-console.log(checkType(42))
+const output31 = checkType("Hello")
+const output32 = checkType(42)
 //Problem 4:
 const user = { id: 1, name: "John Doe", age: 21 };
 
@@ -48,7 +39,6 @@ const getProperty = <T, K extends keyof T>(obj: T, key: K) => {
 
 const ans = getProperty(user, "name");
 
-console.log(ans); 
 //Problem 5:
 const myBook = { title: "TypeScript Guide", author: "Jane Doe", publishedYear: 2024 };
 interface Book{
@@ -63,7 +53,6 @@ const toggleReadStatus = (obj: Book)=>{
   }
 }
 const ans5 = toggleReadStatus(myBook)
-console.log(ans5)
 //Problem 6:
 class Person{
   name: string;
@@ -98,4 +87,3 @@ const getIntersection = (arr1: number[],arr2: number[])=>{
   return arr
 }
 const ans7 = getIntersection([1, 2, 3, 4, 5], [3, 4, 5, 6, 7])
-console.log(ans7)
