@@ -1,0 +1,91 @@
+[{
+    "prodID": 1,
+    "item": "Banana",
+    "category": "Fruit",
+    "price": 0.59,
+    "unit": "lb",
+    "inStock": true,
+    "stockCount": 150
+  },
+  {
+    "prodID": 2,
+    "item": "Sourdough Bread",
+    "category": "Bakery",
+    "price": 4.50,
+    "unit": "loaf",
+    "inStock": true,
+    "stockCount": 12
+  },
+  {
+    "prodID": 3,
+    "item": "Almond Milk",
+    "category": "Dairy Alternative",
+    "price": 3.99,
+    "unit": "carton",
+    "inStock": true,
+    "stockCount": 45
+  },
+  {
+    "prodID": 4,
+    "item": "Avocado",
+    "category": "Produce",
+    "price": 1.25,
+    "unit": "each",
+    "inStock": false,
+    "stockCount": 0
+  },
+  {
+    "prodID": 5,
+    "item": "Greek Yogurt",
+    "category": "Dairy",
+    "price": 5.49,
+    "unit": "tub",
+    "inStock": true,
+    "stockCount": 28
+  },
+  {
+    "prodID": 6,
+    "item": "Organic Spinach",
+    "category": "Produce",
+    "price": 3.25,
+    "unit": "bag",
+    "inStock": true,
+    "stockCount": 20
+  },
+  {
+    "prodID": 7,
+    "item": "Dark Chocolate Bar",
+    "category": "Confectionery",
+    "price": 2.99,
+    "unit": "each",
+    "inStock": true,
+    "stockCount": 85
+  },
+  {
+    "prodID": 8,
+    "item": "Ground Coffee",
+    "category": "Beverage",
+    "price": 12.00,
+    "unit": "bag",
+    "inStock": true,
+    "stockCount": 30
+  },
+  {
+    "prodID": 9,
+    "item": "Free Range Eggs",
+    "category": "Dairy & Eggs",
+    "price": 4.99,
+    "unit": "dozen",
+    "inStock": true,
+    "stockCount": 18
+  },
+  {
+    "prodID": 10,
+    "item": "Honey",
+    "category": "Pantry",
+    "price": 7.50,
+    "unit": "jar",
+    "inStock": true,
+    "stockCount": 40
+  }
+]

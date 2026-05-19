@@ -1,0 +1,1 @@
+## Dev dependency gulo development e lage, dependency development er pore deployment eo lage
