@@ -8,7 +8,7 @@ export const routeHandler = (req: IncomingMessage, res: ServerResponse)=>{
         res.writeHead(200,{"content-type":"application/json"})
         res.end(JSON.stringify({message: "This is root"}))
     }
-    else if (url?.startsWith('/products') && method === "GET") {
+    else if (url?.startsWith('/products') && method === "GET" || method === "POST" || method === "PUT" || method === "DELETE") {
         productController(req,res)
     }
     else{
