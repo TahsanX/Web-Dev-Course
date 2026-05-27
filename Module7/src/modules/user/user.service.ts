@@ -2,20 +2,25 @@ import bcrypt from "bcryptjs";
 import { pool } from "../../db";
 import type { IUser } from "./user.interface";
 const createUserIntoDB = async (payload: IUser) => {
-  const { name, email, password, age, role = 'user' } = payload;
+  const { name, email, password, age, role = "user" } = payload;
 
   const hashPassword = await bcrypt.hash(password, 10);
-
-  const result = await pool.query(
-    `
+  try {
+    const result = await pool.query(
+      `
      INSERT INTO users(name,email,password,age,role) VALUES($1,$2,$3,$4,$5) RETURNING *
     `,
-    [name, email, hashPassword, age,role],
-  );
-
-  delete result.rows[0].password;
-
-  return result;
+      [name, email, hashPassword, age, role],
+    );
+    delete result.rows[0].password;
+    return result;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("Error occured during saving user: ", error.message);
+    } else {
+      console.log("Error occured during saving user: ", String(error));
+    }
+  }
 };
 const getAllUsersFromDB = async () => {
   const result = await pool.query(`

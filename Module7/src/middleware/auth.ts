@@ -3,7 +3,8 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 import { pool } from "../db";
 dotenv.config();
-export const auth = () => {
+import type { Roles } from "../types";
+export const auth = (...arr: Roles[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       var token = req.headers.authorization;
@@ -18,7 +19,7 @@ export const auth = () => {
       //console.log(token)
       const decoded = jwt.verify(
         token as string,
-        process.env.JWTSECRET as string,
+        process.env.JWT_ACCESS_SECRET as string,
       ) as JwtPayload;
       try {
       
@@ -37,13 +38,18 @@ export const auth = () => {
 
         const user = userData.rows[0];
 
-        if (!user.is_active) {
+        if (!user?.is_active) {
           return res.status(403).json({
             success: false,
             message: "Forbidden",
           });
         }
-
+        if (arr.length && !arr.includes(user.role)) {
+          return res.status(403).json({
+            success: false,
+            message: "Forbidden",
+          });
+        }
         (req as any).user = user;
 
         next();
