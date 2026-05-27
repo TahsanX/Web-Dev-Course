@@ -1,14 +1,17 @@
 import { Pool } from "pg";
 import dotenv from "dotenv";
 dotenv.config();
+
 export const pool = new Pool({
-  connectionString: process.env.CONNECTIONSTRING,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  connectionTimeoutMillis: 15000,
-  idleTimeoutMillis: 30000,
+  host: process.env.POSTGRE_HOST,
+  port: Number(process.env.POSTGRE_PORT) || 5432,
+  user: process.env.POSTGRE_USER,
+  password: process.env.POSTGRE_PASSWORD,
+  database: process.env.POSTGRE_DATABASE
 });
+
+
+
 
 export const initDB = async () => {
   try {
@@ -20,6 +23,7 @@ export const initDB = async () => {
         password TEXT NOT NULL,    
         is_active BOOLEAN DEFAULT true,
         age INT,
+        role VARCHAR(10) DEFAULT 'user',
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
       );
@@ -37,7 +41,7 @@ export const initDB = async () => {
       )`,
     );
     console.log("Database Connected & Table Created Successfully");
-  } catch (error) {
-    console.error("Database connection or creation error:", error);
+  } catch (error : any) {
+    console.error("Database connection or creation error:", error.message as string);
   }
 };
