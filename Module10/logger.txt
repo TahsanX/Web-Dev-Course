@@ -142,3 +142,7 @@
 [5/30/2026, 2:34:02 AM] POST /api/auth/login 
 [5/30/2026, 2:34:17 AM] POST /api/auth/login 
 [5/30/2026, 2:35:15 AM] PATCH /api/issues/9 
+[5/30/2026, 3:26:24 AM] POST /api/auth/login 
+[5/30/2026, 3:27:14 AM] POST /api/issues 
+[5/30/2026, 3:28:36 AM] PATCH /api/issues/10 
+[5/30/2026, 3:29:29 AM] DELETE /api/issues/10 

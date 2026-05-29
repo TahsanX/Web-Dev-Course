@@ -1,5 +1,4 @@
 import { Router } from "express";
-import type { Request,Response } from "express";
 const router = Router();
 import { auth } from "../../middleware/auth";
 import { createIssueController, deleteSingleissue, getIssuesController, getSingleissue, updateIssueController } from "./issue.controller";
