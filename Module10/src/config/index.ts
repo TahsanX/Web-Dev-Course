@@ -9,5 +9,6 @@ export const config = {
   pg_port: process.env.POSTGRE_PORT,
   pg_database: process.env.POSTGRE_DATABASE,
   pg_user: process.env.POSTGRE_USER,
-  pg_password: process.env.POSTGRE_PASSWORD
+  pg_password: process.env.POSTGRE_PASSWORD,
+  jwt_access_secret: process.env.JWT_ACCESS_SECRET,
 };

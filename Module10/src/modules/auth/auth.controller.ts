@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
-import bcrypt from "bcrypt";
-import type { Isignup } from "./auth.interface.js";
-import { createUserService } from "./auth.service.js";
+import type { Ilogin, Isignup } from "./auth.interface.js";
+import { createUserService, loginUserIntoDB } from "./auth.service.js";
 
 export const signupController = async (req: Request, res: Response) => {
   const obj: Isignup = req.body;
@@ -43,4 +42,43 @@ export const signupController = async (req: Request, res: Response) => {
       });
     }
   }
+};
+export const loginUser = async (req: Request, res: Response) => {
+  const payload: Ilogin = req.body;
+  const { email, password } = payload;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "Validation Error",
+      errors: "Email and password are required for login"
+    });
+  }
+  try {
+    const result = await loginUserIntoDB(payload);
+
+    if (!result.success) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+        errors: result.message
+      });
+    }
+    
+    return res.status(200).json({
+      success: true,
+      message: "User logged in successfully!",
+      data: result.data 
+    });
+
+  } catch (error: unknown) {
+    console.error("Login System Error:", error);
+    
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      errors: "Unexpected system error occurred. Please try again later."
+    });
+  
+};
 };
