@@ -4,3 +4,9 @@ export interface ICreateIssue {
   type: "bug" | "feature_request";
   reporterId: string;
 }
+
+export interface IUpdateIssue {
+  title?: string;
+  description?: string;
+  type?: "bug" | "feature_request";
+}

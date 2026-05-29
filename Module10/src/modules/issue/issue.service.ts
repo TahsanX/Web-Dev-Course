@@ -1,5 +1,5 @@
 import { pool } from "../../DB";
-import type { ICreateIssue } from "./issue.interface";
+import type { ICreateIssue, IUpdateIssue } from "./issue.interface";
 
 export const createIssueService = async (data: ICreateIssue) => {
   const { title, description, type, reporterId } = data;
@@ -58,6 +58,35 @@ export const getSingleUserFromDB = async (id: string) => {
     return {success: false, error}
   }
 };
+export const updateIssueService = async (
+  id: string,
+  data: IUpdateIssue,
+) => {
+  const { title, description, type } = data;
+  const updates: string[] = [];
+  const params: any[] = [];
+  let paramCount = 1;
+
+  if (title !== undefined) {
+    updates.push(`title = $${paramCount++}`);
+    params.push(title);
+  }
+  if (description !== undefined) {
+    updates.push(`description = $${paramCount++}`);
+    params.push(description);
+  }
+  if (type !== undefined) {
+    updates.push(`type = $${paramCount++}`);
+    params.push(type);
+  }
+
+  updates.push(`updated_at = NOW()`);
+  params.push(id);
+
+  const sql = `UPDATE issues SET ${updates.join(", ")} WHERE id = $${paramCount} RETURNING *`;
+  const result = await pool.query(sql, params);
+  return result;
+};
 export const deleteSingleUserFromDB = async (id: string) => {
 
     const result = await pool.query(
@@ -68,4 +97,14 @@ export const deleteSingleUserFromDB = async (id: string) => {
     );
     return result
 
+};
+export const SingleUpdateissuefromDB = async (id: string) => {
+
+    const result = await pool.query(
+      `
+      SELECT * FROM issues WHERE id=$1  
+        `,
+      [id],
+    );
+    return result
 };

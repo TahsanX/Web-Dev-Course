@@ -45,8 +45,7 @@ export const auth = () => {
 
         const user = userData.rows[0];
 
-        (req as any).user = user;
-        console.log((req as any).user);
+        req.user = user;
         return next();
       } catch (err: any) {
         console.error("Database query error:", err.message);
