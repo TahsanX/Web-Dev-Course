@@ -18,8 +18,8 @@ const corsOptions = {
 app.use(cors(corsOptions))
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
-app.use('api/auth',authRoute)
-app.use('api/issues',issueRoute)
+app.use('/api/auth',authRoute)
+app.use('/api/issues',issueRoute)
 app.use(Globalerrorhandler)
 app.listen(config.port, async () => {
     await initDB()
