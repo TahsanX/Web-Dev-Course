@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import jwt, { type JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import type { JwtPayload } from "jsonwebtoken";
 import { pool } from "../DB/index";
 
 export const auth = () => {
@@ -7,16 +8,27 @@ export const auth = () => {
     try {
       var token = req.headers.authorization;
       if (!token || !token.startsWith("Bearer ")) {
-        return res.status(404).json({
+        return res.status(401).json({
           success: false,
-          message: "Unauthoraized Access",
+          message: "Unauthorized Access",
         });
       }
       token = token.split(" ")[1];
-      const decoded = jwt.verify(
-        token as string,
-        process.env.JWT_ACCESS_SECRET as string,
-      ) as JwtPayload;
+      
+      let decoded: JwtPayload;
+      try {
+        decoded = jwt.verify(
+          token as string,
+          process.env.JWT_ACCESS_SECRET as string,
+        ) as JwtPayload;
+      } catch (tokenError: any) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid or Expired Token",
+          error: tokenError.message,
+        });
+      }
+
       try {
         const userData = await pool.query(
           `SELECT * FROM users WHERE email=$1`,
@@ -24,7 +36,7 @@ export const auth = () => {
         );
 
         if (userData.rows.length === 0) {
-          return res.status(404).json({
+          return res.status(401).json({
             success: false,
             message: "Unauthorized",
             error: "User not found!"
@@ -34,7 +46,8 @@ export const auth = () => {
         const user = userData.rows[0];
 
         (req as any).user = user;
-        next();
+        console.log((req as any).user);
+        return next();
       } catch (err: any) {
         console.error("Database query error:", err.message);
         return res.status(500).json({
@@ -44,12 +57,10 @@ export const auth = () => {
         });
       }
     } catch (error: any) {
-      console.error("JWT Verification Error:", error.message);
-
-      return res.status(401).json({
+      console.error("Auth middleware error:", error.message);
+      return res.status(500).json({
         success: false,
-        message: "Unauthorized: Invalid or expired token",
-        error: error.message,
+        message: "Internal Server Error",
       });
     }
   };

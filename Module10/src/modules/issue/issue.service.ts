@@ -58,3 +58,14 @@ export const getSingleUserFromDB = async (id: string) => {
     return {success: false, error}
   }
 };
+export const deleteSingleUserFromDB = async (id: string) => {
+
+    const result = await pool.query(
+      `
+      DELETE FROM issues WHERE id=$1  
+        `,
+      [id],
+    );
+    return result
+
+};
