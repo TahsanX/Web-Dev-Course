@@ -1,10 +1,10 @@
 import { Router } from "express";
 import type { Request,Response } from "express";
 const router = Router();
-router.get("/",(req:Request,res:Response)=>{
-    res.send(`${req.url} && ${req.method}`)
-})
-router.get("/:id",(req:Request,res:Response)=>{
-    res.send(`${req.url} && ${req.method}`)
-})
+import { auth } from "../../middleware/auth";
+import { createIssueController } from "./issue.controller";
+router.post("/",auth(),createIssueController)
+// router.get("/:id",(req:Request,res:Response)=>{
+    
+// })
 export const issueRoute = router

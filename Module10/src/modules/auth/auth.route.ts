@@ -1,4 +1,3 @@
-import type { Request,Response } from "express";
 import { Router } from "express";
 import { loginUser, signupController } from "./auth.controller";
 const router = Router();

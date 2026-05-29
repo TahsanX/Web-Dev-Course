@@ -51,9 +51,11 @@ export const loginUserIntoDB = async (payload: Ilogin) => {
       const jwtpayload = {
         id: user.id,
         name: user.name,
+        email: email,
         role: user.role,
       };
-
+      const userResponse = { ...user };
+      delete userResponse.password;
       const accessToken = jwt.sign(
         jwtpayload,
         config.jwt_access_secret as string,
@@ -63,7 +65,7 @@ export const loginUserIntoDB = async (payload: Ilogin) => {
       );
       return {
         success: true,
-        data: { accessToken, user: user },
+        data: { accessToken, user: userResponse },
       };
     } catch (error: any) {
       return {
