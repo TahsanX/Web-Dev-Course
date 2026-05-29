@@ -106,7 +106,7 @@ export const deleteSingleissue = async (req: Request, res: Response) => {
     if (result.rowCount === 0) {
       return errorResponse(res, 404, "Not Found", "Issue Not found!");
     }
-    return successResponse(res, 200, "Issue deleted successfully!", null);
+    return successResponse(res, 204, "Issue deleted successfully!", null);
   } catch (error: any) {
     return errorResponse(res, 500, error.message, error);
   }
