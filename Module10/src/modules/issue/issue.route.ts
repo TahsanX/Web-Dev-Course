@@ -2,9 +2,8 @@ import { Router } from "express";
 import type { Request,Response } from "express";
 const router = Router();
 import { auth } from "../../middleware/auth";
-import { createIssueController } from "./issue.controller";
+import { createIssueController, getIssuesController, getSingleissue } from "./issue.controller";
 router.post("/",auth(),createIssueController)
-// router.get("/:id",(req:Request,res:Response)=>{
-    
-// })
+router.get("/", getIssuesController);
+router.get("/:id", getSingleissue);
 export const issueRoute = router

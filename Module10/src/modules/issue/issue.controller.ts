@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createIssueService } from "./issue.service.js";
+import { createIssueService, getIssuesService, getSingleUserFromDB } from "./issue.service.js";
 
 export const createIssueController = async (req: Request, res: Response) => {
   const { title, description, type } = req.body;
@@ -30,6 +30,46 @@ export const createIssueController = async (req: Request, res: Response) => {
       success: false,
       message: "Failed to create issue",
       errors: error instanceof Error ? error.message : "Unexpected database error",
+    });
+  }
+};
+export const getIssuesController = async (req: Request, res: Response) => {
+
+  const { sort = 'newest', type, status } = req.query;
+
+  try {
+    const issues = await getIssuesService({ sort, type, status });
+    return res.status(200).json({
+      success: true,
+      message: "Issues retrived successfully",
+      data: issues,
+    });
+  } catch (error:unknown) {
+    return res.status(500).json({ success: false, message: "Database Error", errors: error instanceof Error ? error.message : "Unexpected database error" });
+  }
+};
+export const getSingleissue = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const {success,properresult} = await getSingleUserFromDB(id as string);
+    if (success===false) {
+      return res.status(404).json({
+        success: false,
+        message: "Not Found",
+        error: "Issue Not found!"
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Issue retrived successfully!",
+      data: properresult,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
     });
   }
 };
