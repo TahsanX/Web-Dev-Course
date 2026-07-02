@@ -23,7 +23,7 @@ export const createIssueController = async (req: Request, res: Response) => {
   try {
     const reporterId = req.user?.id;
     const newIssue = await createIssueService({ title, description, type: type as "bug" | "feature_request", reporterId });
-    return successResponse(res, 201, "Issue created successfully!", newIssue);
+    return successResponse(res, 201, "Issue created successfully", newIssue);
   } catch (error: unknown) {
     return errorsResponse(res, 500, "Failed to create issue", error instanceof Error ? error.message : "Unexpected database error");
   }
@@ -46,9 +46,9 @@ export const getSingleissue = async (req: Request, res: Response) => {
     if (!success) {
       return errorResponse(res, 404, "Not Found", "Issue Not found!");
     }
-    return successResponse(res, 200, "Issue retrived successfully!", properresult);
-  } catch (error: any) {
-    return errorResponse(res, 500, error.message, error);
+    return successResponse(res, 200, "Issue retrived successfully", properresult);
+  } catch (error: unknown) {
+    return errorResponse(res, 500, "Internal Server Error", error instanceof Error ? error.message : "Unexpected error");
   }
 };
 
@@ -56,7 +56,7 @@ export const updateIssueController = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { title, description, type } = req.body;
   const user = req.user;
-  
+
   if (!title && !description && !type) {
     return errorsResponse(res, 400, "Validation Error", "At least one field is required");
   }
@@ -90,15 +90,15 @@ export const updateIssueController = async (req: Request, res: Response) => {
     if (updatedIssue.rowCount === 0) {
       return errorResponse(res, 404, "Not Found", "Issue Not found");
     }
-    return successResponse(res, 200, "Issue updated successfully!", updatedIssue.rows[0]);
-  } catch (error: any) {
-    return errorResponse(res, 500, error.message, error);
+    return successResponse(res, 200, "Issue updated successfully", updatedIssue.rows[0]);
+  } catch (error: unknown) {
+    return errorResponse(res, 500, "Internal Server Error", error instanceof Error ? error.message : "Unexpected error");
   }
 };
 
 export const deleteSingleissue = async (req: Request, res: Response) => {
   const { id } = req.params;
-  if ((req as any).user.role === "contributor") {
+  if (req.user?.role === "contributor") {
     return errorResponse(res, 403, "Forbidden", "Insufficient permissions");
   }
   try {
@@ -106,8 +106,8 @@ export const deleteSingleissue = async (req: Request, res: Response) => {
     if (result.rowCount === 0) {
       return errorResponse(res, 404, "Not Found", "Issue Not found!");
     }
-    return successResponse(res, 204, "Issue deleted successfully!", null);
-  } catch (error: any) {
-    return errorResponse(res, 500, error.message, error);
+    return successResponse(res, 200, "Issue deleted successfully", null);
+  } catch (error: unknown) {
+    return errorResponse(res, 500, "Internal Server Error", error instanceof Error ? error.message : "Unexpected error");
   }
 };

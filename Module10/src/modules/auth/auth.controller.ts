@@ -16,7 +16,7 @@ export const signupController = async (req: Request, res: Response) => {
 
   try {
     const userResponse = await createUserService({ name, email, password, role });
-    return successResponse(res, 201, "User Created successfully!", userResponse);
+    return successResponse(res, 201, "User registered successfully", userResponse);
   } catch (error: unknown) {
     if (error instanceof Error) {
       return errorsResponse(res, 400, "Validation errors or invalid input or duplicate resource", error.message);
@@ -40,7 +40,7 @@ export const loginUser = async (req: Request, res: Response) => {
       return errorResponse(res, 401, "Unauthorized", result.message);
     }
 
-    return successResponse(res, 200, "User logged in successfully!", result.data);
+    return successResponse(res, 200, "Login successful", result.data);
   } catch (error: unknown) {
     return errorResponse(res, 500, "Internal Server Error", "Unexpected system error occurred. Please try again later.");
   }

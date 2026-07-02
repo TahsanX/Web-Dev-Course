@@ -65,7 +65,7 @@ export const loginUserIntoDB = async (payload: Ilogin) => {
       );
       return {
         success: true,
-        data: { accessToken, user: userResponse },
+        data: { token: accessToken, user: userResponse },
       };
     } catch (error: any) {
       return {

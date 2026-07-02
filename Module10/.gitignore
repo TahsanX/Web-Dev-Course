@@ -3,3 +3,5 @@ dist/
 .env
 .vercel/
 logger.txt
+.vercel
+.env*

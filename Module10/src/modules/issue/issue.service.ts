@@ -9,11 +9,17 @@ export const createIssueService = async (data: ICreateIssue) => {
   );
   return result.rows[0];
 };
-export const getIssuesService = async (query: any) => {
+interface IssueQuery {
+  sort: string;
+  type: string;
+  status: string;
+}
+
+export const getIssuesService = async (query: IssueQuery) => {
   const { sort, type, status } = query;
 
   let sql = `SELECT * FROM issues WHERE 1=1`;
-  const params: any[] = [];
+  const params: string[] = [];
   let paramCount = 1;
 
   if (type) {
@@ -29,7 +35,19 @@ export const getIssuesService = async (query: any) => {
   sql += ` ORDER BY created_at ${sortOrder}`;
 
   const result = await pool.query(sql, params);
-  return result.rows;
+
+  const issues = await Promise.all(
+    result.rows.map(async (issue) => {
+      const reporterResult = await pool.query(
+        `SELECT id, name, role FROM users WHERE id=$1`,
+        [issue.reporter_id],
+      );
+      const { reporter_id, ...rest } = issue;
+      return { ...rest, reporter: reporterResult.rows[0] };
+    }),
+  );
+
+  return issues;
 };
 export const getSingleUserFromDB = async (id: string) => {
   try {
@@ -64,7 +82,7 @@ export const updateIssueService = async (
 ) => {
   const { title, description, type } = data;
   const updates: string[] = [];
-  const params: any[] = [];
+  const params: (string | number)[] = [];
   let paramCount = 1;
 
   if (title !== undefined) {
